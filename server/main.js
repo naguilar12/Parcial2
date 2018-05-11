@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from "meteor/mongo";
+import "../imports/api/request.js"
 
 const Test = new Mongo.Collection("test");
 
