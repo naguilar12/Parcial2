@@ -2,8 +2,6 @@ import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { HTTP } from "meteor/http";
 
-console.log("HOLA")
-
 Meteor.methods({
 	"buses.getBuses"(){
 		var buses = HTTP.call("GET", "https://parcial2webdev.herokuapp.com/miserables.json");

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Grafo from "./Grafo";
+import Schedule from "./Schedule";
 
 class App extends Component {
     render() {
         return (
             <div>
-                <Grafo/>   
+                <Schedule/>   
             </div>
         );
     }
