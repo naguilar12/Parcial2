@@ -29,6 +29,7 @@ The project runs in http://localhost:3000/
 - React
 - NPM
 - D3
+- nextBus API
 
 
 ## Author
