@@ -1,3 +1,7 @@
+## About
+
+Web App that provides data visualization about the expected time at which different buses will be in specific a specific stop in a specific route.
+
 ## Deployment
 
 You can find the web app here https://parcial2webdev.herokuapp.com/. If you want to run locally the project you must follow the next steps.
