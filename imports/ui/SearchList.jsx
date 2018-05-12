@@ -7,15 +7,24 @@ class SearchList extends Component {
     renderHistory(){
         var i = 0;
         return this.props.history.map((h)=>{
-            return <li key={h.agency+h.route+(i++)}>Agency {h.agency} and Route {h.route} </li>
+            return <li key={h.agencyTag+h.routeTag+(i++)}>Route {h.routeName} from agency {h.agencyName}</li>
         })
+    }
+
+    renderTitle(){
+        if(!this.props.history) return;
+        if(this.props.history.length>0)
+            return <h3>Past Searchs</h3>
     }
 
     render() {
         return (
-            <ul>
-                {this.renderHistory()}
-            </ul>
+            <div>
+                {this.renderTitle()}
+                <ul>
+                    {this.renderHistory()}
+                </ul>
+            </div>
         );
     }
 }

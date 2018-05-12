@@ -4,10 +4,12 @@ import { Mongo } from "meteor/mongo";
 export const History = new Mongo.Collection("history");
 
 Meteor.methods({
-    "history.insertSearch"(agency, route){
+    "history.insertSearch"(agencyTag, agencyName, routeTag, routeName){
         History.insert({
-            agency: agency,
-            route: route
+            agencyName: agencyName,
+            agencyTag: agencyTag,
+            routeName: routeName,
+            routeTag: routeTag
 		});
     }
 });

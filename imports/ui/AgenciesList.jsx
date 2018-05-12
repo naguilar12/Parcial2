@@ -15,7 +15,7 @@ class AgenciesList extends Component {
     renderAgencies() {
         if (this.state) {
             return this.state.agencies.map((agency) => {
-                return <option data-value={agency.tag} key={agency.tag} value={agency.tag} />;
+                return <option id={agency.tag} key={agency.tag} value={agency.tag}>{agency.title}</option>;
             });
         }
     }
@@ -23,15 +23,22 @@ class AgenciesList extends Component {
     renderRoutes() {
         if (!this.state) return;
         if (!this.state.routes) return;
-        return this.state.routes.map((route) => {
-            return <option value={route.tag} key={route.tag} value={route.tag} />;
-        });
-
+        try {
+            return this.state.routes.map((route) => {
+                return <option id={route.tag} key={route.tag} value={route.tag}>{route.title}</option>;
+            });    
+            
+        } catch (error) {
+            <option key="-" value="-">There are no available routes</option>
+        }
+        
     }
 
     onEnterAgencies(e) {
+        e.preventDefault();
         this.setState({
-            selectedAgency: document.getElementById("selected-agency").value
+            selectedAgency: e.target.value,
+            selectedAgencyName: document.getElementById(e.target.value).textContent
         }, () => {
             Meteor.call("agency.getRoutesForAgency", this.state.selectedAgency, (err, res) => {
                 this.setState({
@@ -42,33 +49,44 @@ class AgenciesList extends Component {
     }
 
     onEnterRoute(e) {
+        e.preventDefault();
         this.setState({
-            selectedRoute: document.getElementById("selected-route").value
+            selectedRoute: e.target.value,
+            selectedRouteName: document.getElementById(e.target.value).textContent
         }, () => {
             Meteor.call("agency.getSpecificRouteForAgency", this.state.selectedAgency, this.state.selectedRoute, (err, res) => {
                 this.props.updateGraph(res);
+                this.props.updateAgencyRoute(this.state.selectedAgency,  this.state.selectedRoute);
             });
+            Meteor.call("history.insertSearch", this.state.selectedAgency, this.state.selectedAgencyName, this.state.selectedRoute, this.state.selectedRouteName);
         });
 
+    }
+
+    renderRouteDataList(){
+        if(!this.state) return;
+        if(!this.state.selectedAgency) return;
+
+        return (<div>
+            <h3>Select a route</h3>
+            <select id="routes" onChange={this.onEnterRoute.bind(this)}>
+                <option key="-" value="-">-</option>
+                {this.renderRoutes()}
+            </select>
+        </div>);
     }
 
     render() {
         return (
             <div>
                 <div>
-                    <input type="text" list="agencies" className="form-control" id="selected-agency"></input>
-                    <datalist id="agencies">
+                    <h3>Select an Agency</h3>
+                    <select id="agencies" onChange={this.onEnterAgencies.bind(this)}>
+                        <option key="-" value="-">-</option>
                         {this.renderAgencies()}
-                    </datalist>
-                    <button onClick={this.onEnterAgencies.bind(this)}>Boton</button>
+                    </select>
                 </div>
-                <div>
-                    <input type="text" list="routes" className="form-control" id="selected-route"></input>
-                    <datalist id="routes">
-                        {this.renderRoutes()}
-                    </datalist>
-                    <button onClick={this.onEnterRoute.bind(this)}>Boton</button>
-                </div>
+                {this.renderRouteDataList()}
             </div>
         );
     }
