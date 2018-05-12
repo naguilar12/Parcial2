@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from "meteor/mongo";
 import "../imports/api/schedule.js"
+import "../imports/api/History.js"
+import "../imports/api/Comments"
 
 const Test = new Mongo.Collection("test");
 
